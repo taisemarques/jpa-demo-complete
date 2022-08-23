@@ -3,28 +3,27 @@ package com.example.jpademocomplete.repositories;
 import com.example.jpademocomplete.entities.*;
 import com.querydsl.jpa.JPQLQuery;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
-import org.springframework.stereotype.Component;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.PageImpl;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 import static java.util.Objects.nonNull;
 
-@Component
+@Repository
 public class BookRepositoryQuerydsl extends QuerydslRepositorySupport {
 
     public BookRepositoryQuerydsl() {
         super(Book.class);
     }
 
-    public Page<Book> fetchAll(BookFilter filterParams, Pageable pageable) {
+    public List<Book> fetchAll(BookFilter filterParams) {
         QBook book = QBook.book;
         QAuthor author = QAuthor.author;
         QPriceOffer priceOffer = QPriceOffer.priceOffer;
         QReservation reservation = QReservation.reservation;
         QReview review = QReview.review;
 
-        JPQLQuery<Book> query = from(QBook.book)
+        JPQLQuery<Book> query = from(book)
                 .leftJoin(reservation).on(book.reservation.reservationId.eq(reservation.reservationId))
                 .leftJoin(author).on(book.authors.contains(author))
                 .leftJoin(priceOffer).on(book.priceOffer.contains(priceOffer))
@@ -45,7 +44,7 @@ public class BookRepositoryQuerydsl extends QuerydslRepositorySupport {
         if(nonNull(filterParams.getReservationDate()))
             query = query.where(reservation.reservationDate.eq(filterParams.getReservationDate()));
 
-        if(nonNull(filterParams.getNumReviewStars()) && filterParams.getNumReviewStars() != 0)
+        if(nonNull(filterParams.getNumReviewStars()) && filterParams.getNumReviewStars() != -1)
             query = query.where(review.numStars.eq(filterParams.getNumReviewStars()));
 
         if(nonNull(filterParams.getReviewVoterName()))
@@ -54,6 +53,6 @@ public class BookRepositoryQuerydsl extends QuerydslRepositorySupport {
         if(nonNull(filterParams.getReviewComment()))
             query = query.where(review.comment.likeIgnoreCase(filterParams.getReviewComment()));
 
-        return new PageImpl(query.orderBy(book.bookId.asc()).fetch(), pageable, 15);
+        return query.orderBy(book.bookId.asc()).fetch();
     }
 }

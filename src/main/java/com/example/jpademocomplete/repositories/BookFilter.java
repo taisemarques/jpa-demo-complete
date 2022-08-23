@@ -1,16 +1,20 @@
 package com.example.jpademocomplete.repositories;
 
-import lombok.Value;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import java.util.Date;
 
-@Value
+@NoArgsConstructor
+@Setter
+@Getter
 public class BookFilter {
-    String authorName;
-    Long bookNewPrice;
-    String promotionalText;
-    String reservationDescription;
-    Date reservationDate;
-    int numReviewStars;
-    String reviewVoterName;
-    String reviewComment;
+    private String authorName = null;
+    private Long bookNewPrice = null;
+    private String promotionalText = null;
+    private String reservationDescription = null;
+    private Date reservationDate = null;
+    private int numReviewStars = -1;
+    private String reviewVoterName = null;
+    private String reviewComment = null;
 }

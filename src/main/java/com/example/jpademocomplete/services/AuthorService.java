@@ -23,8 +23,9 @@ public class AuthorService {
     };
 
     private Converter<Author, AuthorBO> authorToAuthorBO = in -> {
-        AuthorBO authorBO = new AuthorBO();
-        authorBO.setName(in.getName());
+        AuthorBO authorBO = AuthorBO.builder()
+                .name(in.getName())
+                .build();
         return authorBO;
     };
 

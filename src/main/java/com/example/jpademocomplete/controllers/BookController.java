@@ -5,12 +5,11 @@ import com.example.jpademocomplete.projections.BookInfoView;
 import com.example.jpademocomplete.projections.*;
 import com.example.jpademocomplete.repositories.BookFilter;
 import com.example.jpademocomplete.services.BookService;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -29,8 +28,8 @@ public class BookController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<BookInfoBO>> getBooksByParams(@RequestBody BookFilter bookFilter, @RequestParam(name = "totalPages") int totalPages, @RequestParam(name = "size") int size) {
-        return ResponseEntity.ok(bookService.getBookByParams(bookFilter, PageRequest.of(totalPages, size)));
+    public ResponseEntity<List<BookInfoBO>> getBooksByParams(@RequestBody BookFilter bookFilter) {
+        return ResponseEntity.ok(bookService.getBookByParams(bookFilter));
     }
 
     @GetMapping(value="/{id}")

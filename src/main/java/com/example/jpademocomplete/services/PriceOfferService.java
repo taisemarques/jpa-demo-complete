@@ -30,9 +30,10 @@ public class PriceOfferService {
     };
 
     private Converter<PriceOffer, PriceOfferBO> priceOfferToPriceOfferBO = in -> {
-        PriceOfferBO priceOffer = new PriceOfferBO();
-        priceOffer.setNewPrice(in.getNewPrice());
-        priceOffer.setPromotionalText(in.getPromotionalText());
+        PriceOfferBO priceOffer = PriceOfferBO.builder()
+                .newPrice(in.getNewPrice())
+                .promotionalText(in.getPromotionalText())
+                .build();
         return priceOffer;
     };
 

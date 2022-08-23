@@ -21,16 +21,16 @@ public class Book {
 
     private Long price;
 
-    @OneToMany(mappedBy="book")
+    @OneToMany(mappedBy="book", cascade = CascadeType.ALL)
     private List<PriceOffer> priceOffer;
 
-    @OneToMany(mappedBy="book")
+    @OneToMany(mappedBy="book", cascade = CascadeType.ALL)
     private List<Review> reviews;
 
-    @OneToOne(mappedBy="book")
+    @OneToOne(mappedBy="book", cascade = CascadeType.ALL)
     private Reservation reservation;
 
-    @ManyToMany(mappedBy="book")
+    @ManyToMany(mappedBy="book", cascade = CascadeType.ALL)
     private List<Author> authors;
 
     @Override

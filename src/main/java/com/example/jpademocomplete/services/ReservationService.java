@@ -22,9 +22,10 @@ public class ReservationService {
     };
 
     public Converter<Reservation, ReservationBO> reservationToReservationBO = in -> {
-        ReservationBO reservation = new ReservationBO();
-        reservation.setReservationDate(in.getReservationDate());
-        reservation.setDescription(in.getDescription());
+        ReservationBO reservation = ReservationBO.builder()
+                .reservationDate(in.getReservationDate())
+                .description(in.getDescription())
+                .build();
         return reservation;
     };
 

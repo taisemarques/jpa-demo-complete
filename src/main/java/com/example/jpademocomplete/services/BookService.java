@@ -7,15 +7,11 @@ import com.example.jpademocomplete.repositories.BookFilter;
 import com.example.jpademocomplete.repositories.BookRepositoryJPA;
 import com.example.jpademocomplete.repositories.BookRepositoryQuerydsl;
 import org.springframework.core.convert.converter.Converter;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.UUID;
-
-import static java.util.stream.Collectors.toList;
+import java.util.stream.Collectors;
 
 @Service
 public class BookService {
@@ -107,16 +103,15 @@ public class BookService {
         return authorResponse.getAuthorId();
     }
 
-    public Page<BookInfoBO> getBookByParams(BookFilter bookFilter, Pageable page){
-        Page<BookInfoBO> book = listBookToListBookBO(bookRepositoryQuerydsl.fetchAll(bookFilter, page));
+    public List<BookInfoBO> getBookByParams(BookFilter bookFilter){
+        List<BookInfoBO> book = listBookToListBookBO(bookRepositoryQuerydsl.fetchAll(bookFilter));
         return book;
     }
 
-    private Page<BookInfoBO> listBookToListBookBO(Page<Book> books){
-        List<BookInfoBO> bookList = books.stream()
+    private List<BookInfoBO> listBookToListBookBO(List<Book> books){
+        return books.stream()
                 .map(book -> bookToBookInfoBO.convert(book))
-                .collect(toList());
-        return new PageImpl(bookList);
+                .collect(Collectors.toList());
     }
 
 }

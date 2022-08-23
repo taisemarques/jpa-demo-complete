@@ -27,11 +27,12 @@ public class ReviewService {
     };
 
     private Converter<Review, ReviewBO> reviewToReviewBO = in -> {
-        ReviewBO reviewBO = new ReviewBO();
-        reviewBO.setComment(in.getComment());
-        reviewBO.setNumStars(in.getNumStars());
-        reviewBO.setVoterName(in.getVoterName());
-        return reviewBO;
+        ReviewBO review = ReviewBO.builder()
+                .comment(in.getComment())
+                .numStars(in.getNumStars())
+                .voterName(in.getVoterName())
+                .build();
+        return review;
     };
 
     ReviewService(ReviewRepository reviewRepository){
